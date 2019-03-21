@@ -18,8 +18,9 @@ namespace dlframework{
 		int dim;
 		int length;
 		int shape[TensorMaxDim];
-		Tensor(std::initializer_list<unsigned>);
-		T & operator()(std::initializer_list<unsigned>);
+		Tensor(const std::initializer_list<unsigned> & init_shape);
+		Tensor<T> & operator=(const std::initializer_list<T> & array);
+		T & operator()(const std::initializer_list<unsigned> & indices);
 		virtual ~Tensor();
 	};
 

@@ -2,7 +2,7 @@
 
 namespace dlframework{
 
-template<class T> Tensor<T>::Tensor(std::initializer_list<unsigned> init_shape){
+template<class T> Tensor<T>::Tensor(const std::initializer_list<unsigned> & init_shape){
 	dim = init_shape.end()-init_shape.begin();
 	unsigned i=0;
 	length=1;
@@ -17,11 +17,21 @@ template<class T> Tensor<T>::Tensor(std::initializer_list<unsigned> init_shape){
 
 //overload all constructors !
 
+template<class T> Tensor<T> & Tensor<T>::operator=(const std::initializer_list<T> & array)
+{
+	T * ptr=p;
+	for (auto it=array.begin(); it!=array.end() && ptr-p<length ; ++ptr,++it)
+	{
+		*ptr = *it;
+	}
+	return *this;
+}
+
 template<class T> Tensor<T>::~Tensor(){
 	delete[] p;	
 }
 
-template<class T> T& Tensor<T>::operator()(std::initializer_list<unsigned> indices){
+template<class T> T& Tensor<T>::operator()(const std::initializer_list<unsigned> & indices){
 	//assert dim == length of indices
 	unsigned offset=0;
 	unsigned i=0;
