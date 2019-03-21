@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Sublime and Vim swap files
+*~
+*.swap
