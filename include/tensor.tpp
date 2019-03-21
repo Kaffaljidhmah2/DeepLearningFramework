@@ -17,10 +17,19 @@ template<class T> Tensor<T>::Tensor(const std::initializer_list<unsigned> & init
 
 //overload all constructors !
 
+template<class T> Tensor<T>::Tensor(const Tensor<T> & rhs)
+{
+	dim=rhs.dim;
+	length=rhs.length;
+	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+	p=new T[length];
+	for (unsigned i=0;i<length;++i) ((T*)p)[i]=((T*)rhs.p)[i];
+}
+
 template<class T> Tensor<T> & Tensor<T>::operator=(const std::initializer_list<T> & array)
 {
-	T * ptr=p;
-	for (auto it=array.begin(); it!=array.end() && ptr-p<length ; ++ptr,++it)
+	T * ptr=(T*)p;
+	for (auto it=array.begin(); it!=array.end() && ptr-(T*)p<length ; ++ptr,++it)
 	{
 		*ptr = *it;
 	}
@@ -28,7 +37,7 @@ template<class T> Tensor<T> & Tensor<T>::operator=(const std::initializer_list<T
 }
 
 template<class T> Tensor<T>::~Tensor(){
-	delete[] p;	
+	delete[] (T*)p;	
 }
 
 template<class T> T& Tensor<T>::operator()(const std::initializer_list<unsigned> & indices){
@@ -42,8 +51,17 @@ template<class T> T& Tensor<T>::operator()(const std::initializer_list<unsigned>
 		//assert *iter < shape[i]
 		++i;
 	}
-	return p[offset];
+	return ((T*)p)[offset];
 }
 
-
+template<class T> Tensor<T> & Tensor<T>::operator+(const BaseTensor& b)
+{
+	Tensor<T>* x=new Tensor<T>(*this);
+	//assert shape match!
+	for (unsigned i=0; i<length; ++i)
+	{
+		((T*)x->p)[i]+=((T*)b.p)[i];
+	}
+	return *x;
+}
 }
