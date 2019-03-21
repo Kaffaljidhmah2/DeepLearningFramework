@@ -1,5 +1,3 @@
-#include "variable.h"
-
 namespace dlframework{
 
 template<class T> Tensor<T>::Tensor(const std::initializer_list<unsigned> & init_shape){

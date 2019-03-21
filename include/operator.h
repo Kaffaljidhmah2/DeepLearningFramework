@@ -1,3 +1,6 @@
+#ifndef OPERATOR_H
+#define OPERATOR_H
+
 #include "variable.h"
 
 namespace dlframework{
@@ -22,3 +25,5 @@ public:
 
 
 } //end dlframework
+
+#endif
