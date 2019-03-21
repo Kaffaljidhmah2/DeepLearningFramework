@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-test
+build
 
 # Sublime and Vim swap files
 *~
