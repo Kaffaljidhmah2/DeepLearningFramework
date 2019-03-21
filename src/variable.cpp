@@ -2,7 +2,7 @@
 
 namespace dlframework{
 
-Variable::Variable(BaseTensor & tensor)
+Variable::Variable(Tensor & tensor)
 {
 	data=&tensor;
 }

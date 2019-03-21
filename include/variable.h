@@ -6,36 +6,28 @@
 
 #include<initializer_list>
 
-namespace dlframework{
-	class BaseTensor{
+namespace dlframework{	
+	class Tensor{
 	public:
 		int dim;
 		int length;
 		int shape[TENSOR_MAX_DIM];
-		void * p;
-		virtual BaseTensor & operator+(const BaseTensor & b)=0;
-		virtual ~BaseTensor(){};
-	};
-
-	template<class T>
-	class Tensor:public BaseTensor{
-	public:
+		float * p;
 		Tensor(const std::initializer_list<unsigned> & init_shape);
-		Tensor(const Tensor<T> & rhs);
-		Tensor<T> & operator=(const std::initializer_list<T> & array);
-		T & operator()(const std::initializer_list<unsigned> & indices);
-		Tensor<T> & operator+(const BaseTensor& b);
+		Tensor(const Tensor & rhs);
+		Tensor & operator=(const std::initializer_list<float> & array);
+		float & operator()(const std::initializer_list<unsigned> & indices);
+		Tensor & operator+(const Tensor& b);
 		virtual ~Tensor();
 	};
-
 
 	class baseOp;
 	class Variable{
 	public:
-		BaseTensor * data;
-		BaseTensor * grad;
+		Tensor * data;
+		Tensor * grad;
 		baseOp * op;
-		Variable(BaseTensor & tensor);
+		Variable(Tensor & tensor);
 		void backward();
 		void zero_grad();
 	};
@@ -44,7 +36,5 @@ namespace dlframework{
 
 
 }// end dlframework
-
-#include <tensor.tpp>
 
 #endif

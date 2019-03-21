@@ -5,7 +5,7 @@
 
 namespace dlframework{
 class baseOp{
-public:
+public:	
 	int operand_num;
 	Variable * operand[OPERATOR_MAX_NUM];
 	baseOp(const std::initializer_list<Variable *> & operand_list);
