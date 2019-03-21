@@ -36,4 +36,6 @@ namespace dlframework{
 
 }// end dlframework
 
+#include <tensor.tpp>
+
 #endif
