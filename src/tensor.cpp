@@ -1,6 +1,6 @@
 #include "variable.h"
 #include "operator.h"
-#include <iostream> //debug
+
 namespace dlframework{
 
  Tensor::Tensor(float x){
@@ -35,22 +35,23 @@ Tensor::Tensor()
 	dim=0;length=0;p=nullptr;shape[0]=1;
 }
 
- Tensor::Tensor(const Tensor & rhs)	//shadow copy
+ Tensor::Tensor(const Tensor & rhs)
+{
+	dim=rhs.dim;
+	length=rhs.length;
+	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+	p=new float[length];
+	for (unsigned i=0;i<length;++i) p[i]=rhs.p[i];	
+}
+
+
+Tensor::Tensor(Tensor && rhs)
 {
 	dim=rhs.dim;
 	length=rhs.length;
 	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
 	p=rhs.p;
-}
-
-void Tensor::copy(const Tensor & rhs)
-{
-	dim=rhs.dim;
-	length=rhs.length;
-	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
-	if (p!=nullptr) delete[] p;
-	p=new float[length];
-	for (unsigned i=0;i<length;++i) p[i]=rhs.p[i];
+	rhs.p=nullptr;
 }
 
 std::ostream& operator<<(std::ostream & o, const Tensor & rhs)
@@ -77,16 +78,34 @@ std::ostream& operator<<(std::ostream & o, const Tensor & rhs)
 
 Tensor & Tensor::operator=(const Tensor & rhs)
 {
-	dim=rhs.dim;
-	length=rhs.length;
-	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
-	p=rhs.p;
+	if (this != &rhs)
+	{
+		if (p!=nullptr) delete[] p;
+		dim=rhs.dim;
+		length=rhs.length;
+		for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+		p=new float[length];
+		for (unsigned i=0;i<length;++i) p[i]=rhs.p[i];
+	}
+	return *this;
+}
+
+Tensor & Tensor::operator=(Tensor && rhs)
+{
+	if (this != &rhs)
+	{
+		if (p!=nullptr) delete[] p;
+		dim=rhs.dim;
+		length=rhs.length;
+		for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+		p=rhs.p;
+		rhs.p=nullptr;
+	}	
 	return *this;
 }
 
 Tensor::~Tensor(){
- 	if (p!=nullptr) delete[] p;
- 	std::cout<<"DEBUG INFO: DELETE Tensor with "<<length<<"DATA"<<std::endl;
+	if (p!=nullptr) delete[] p;
 }
 
 float& Tensor::operator()(const std::initializer_list<unsigned> & indices){
@@ -115,8 +134,7 @@ Tensor & Tensor::operator+=(const Tensor & b)
 
 Tensor Tensor::operator+(const Tensor& b) const
 {
-	Tensor x;
-	x.copy(*this);
+	Tensor x(*this);
 	x+=b;
 	return x;
 }
@@ -133,8 +151,7 @@ Tensor & Tensor::operator-=(const Tensor & b)
 
 Tensor Tensor::operator-(const Tensor& b) const
 {
-	Tensor x;
-	x.copy(*this);
+	Tensor x(*this);
 	x-=b;
 	return x;
 }

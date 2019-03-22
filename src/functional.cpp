@@ -15,13 +15,16 @@ Tensor matmul(const Tensor & M, const Tensor & x)
 		//assert M.shape[1] == x.shape[0]
 
 		Tensor res({m,k});
-		for (int i=0;i<m;++i)
+		for (unsigned i=0;i<m;++i)
 		{
-			for (int j=0;j<k;++j)
+			for (unsigned j=0;j<k;++j)
 			{
 				float & current = res.p[i*k+j];
-				for (int l=0;l<n;++l)
+				current=0.0;
+				for (unsigned l=0;l<n;++l)
+				{
 					current += M.p[i*n+l] * x.p[l*k+j];
+				}
 			}
 		}
 		return res;
@@ -31,10 +34,11 @@ Tensor matmul(const Tensor & M, const Tensor & x)
 		//assert M.shape[1] == x.shape[0]
 
 		Tensor res({m});
-		for (int i=0;i<m;++i)
+		for (unsigned i=0;i<m;++i)
 		{
 			float & current = res.p[i];
-			for (int l=0;l<n;++l)
+			current=0;
+			for (unsigned l=0;l<n;++l)
 				current += M.p[i*n+l] * x.p[l];
 		}
 		return res;
@@ -55,7 +59,7 @@ Tensor sub(const Tensor & a, const Tensor & b)
 Tensor max(const Tensor & a, const Tensor & b)
 {
 	//assert a.shape==b.shape
-	Tensor res;res.copy(a);
+	Tensor res(a);
 	for (int i=0;i<a.length;++i)
 		if (res.p[i]<b.p[i]) res.p[i]=b.p[i];
 	return res;
@@ -64,7 +68,7 @@ Tensor max(const Tensor & a, const Tensor & b)
 Tensor min(const Tensor & a, const Tensor & b)
 {
 	//assert a.shape==b.shape
-	Tensor res;res.copy(a);
+	Tensor res(a);
 	for (int i=0;i<a.length;++i)
 		if (res.p[i]>b.p[i]) res.p[i]=b.p[i];
 	return res;

@@ -1,5 +1,6 @@
 #include "variable.h"
 #include "operator.h"
+#include "functional.h"
 #include <iostream>
 
 using namespace std;
@@ -7,7 +8,9 @@ using namespace dlframework;
 
 int main()
 {
-	// // Tensors
+	// // Tensors 
+
+	//
 	// Tensor x,y(1.4),z({2,3}),w({2,3,4});
 	// cout<<x<<endl;
 	// cout<<y<<endl;
@@ -54,7 +57,23 @@ int main()
 	// Tensor tx({2,3});Variable vx(tx); cout<<vx<<endl;
 	// tx={2,3,7}; cout<<vx<<endl;
 
+	// // Functionals 
 
+	// Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
+	// cout<<x<<endl;cout<<y<<endl;
+	// cout<<functional::add(x,y)<<endl;
+	// cout<<functional::sub(x,y)<<endl;
+	// cout<<functional::sub(y,x)<<endl;
+	// cout<<functional::add(functional::add(x,y),y)<<endl;
+
+	// cout<<functional::max(x,y)<<endl;
+	// cout<<functional::min(x,y)<<endl;
+
+	Tensor x({2,2}),y({2,2});x={1,2,2,1};y={1,0,0,1};
+	cout<<x<<endl;cout<<y<<endl;
+	cout<<functional::matmul(x,y)<<endl;
+	// 1 2  1 0   =   1 2 
+	// 2 1  0 1   =   2 1
 
 
 

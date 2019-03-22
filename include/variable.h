@@ -18,13 +18,13 @@ namespace dlframework{
 		Tensor();
 		Tensor(float);
 		Tensor(const std::initializer_list<unsigned> & init_shape);
-		Tensor(const Tensor & rhs); //change to shadow copy !
+		Tensor(const Tensor & rhs);
+		Tensor(Tensor && rhs); 
 		virtual ~Tensor();
 
-		void copy(const Tensor & rhs);
-
 		Tensor & operator=(const std::initializer_list<float> & array);
-		Tensor & operator=(const Tensor & rhs); //shadow copy
+		Tensor & operator=(const Tensor & rhs); 
+		Tensor & operator=(Tensor && rhs);
 		float & operator()(const std::initializer_list<unsigned> & indices);
 		Tensor & operator+=(const Tensor & b);
 		Tensor operator+(const Tensor& b) const;
