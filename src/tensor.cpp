@@ -1,9 +1,10 @@
 #include "variable.h"
 #include "operator.h"
-
+#include <iostream> //debug
 namespace dlframework{
 
  Tensor::Tensor(float x){
+
  	dim=1;
  	length=1;
  	shape[0]=1;
@@ -13,6 +14,7 @@ namespace dlframework{
  }
 
  Tensor::Tensor(const std::initializer_list<unsigned> & init_shape){
+
 	dim = init_shape.end()-init_shape.begin();
 	unsigned i=0;
 	length=1;
@@ -27,25 +29,44 @@ namespace dlframework{
 
 //overload all constructors !
 
- Tensor::Tensor(const Tensor & rhs)
+Tensor::Tensor()
+{
+
+	dim=0;length=0;p=nullptr;shape[0]=1;
+}
+
+ Tensor::Tensor(const Tensor & rhs)	//shadow copy
 {
 	dim=rhs.dim;
 	length=rhs.length;
 	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+	p=rhs.p;
+}
+
+void Tensor::copy(const Tensor & rhs)
+{
+	dim=rhs.dim;
+	length=rhs.length;
+	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+	if (p!=nullptr) delete[] p;
 	p=new float[length];
 	for (unsigned i=0;i<length;++i) p[i]=rhs.p[i];
 }
 
 std::ostream& operator<<(std::ostream & o, const Tensor & rhs)
 {
+	o<<"Tensor with dim="<<rhs.dim<<", shape=(";
+	for (int i=0;i<rhs.dim;++i) o<<rhs.shape[i]<<',';
+	o<<")"<<std::endl;
 	for (int i=0;i<rhs.length;++i)
-		o<<rhs.p[i]<<' ';
+		{o<<rhs.p[i]<<' ';}
 	return o;
 }
 
 
- Tensor & Tensor::operator=(const std::initializer_list<float> & array)
+ Tensor & Tensor::operator=(const std::initializer_list<float> & array) //list init
 {
+	//Assert size_mismatch
 	float * ptr=p;
 	for (auto it=array.begin(); it!=array.end() && ptr-p<length ; ++ptr,++it)
 	{
@@ -54,8 +75,18 @@ std::ostream& operator<<(std::ostream & o, const Tensor & rhs)
 	return *this;
 }
 
- Tensor::~Tensor(){
-	delete[] p;	
+Tensor & Tensor::operator=(const Tensor & rhs)
+{
+	dim=rhs.dim;
+	length=rhs.length;
+	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
+	p=rhs.p;
+	return *this;
+}
+
+Tensor::~Tensor(){
+ 	if (p!=nullptr) delete[] p;
+ 	std::cout<<"DEBUG INFO: DELETE Tensor with "<<length<<"DATA"<<std::endl;
 }
 
 float& Tensor::operator()(const std::initializer_list<unsigned> & indices){
@@ -82,10 +113,29 @@ Tensor & Tensor::operator+=(const Tensor & b)
 	return *this;
 }
 
-Tensor & Tensor::operator+(const Tensor& b)
+Tensor Tensor::operator+(const Tensor& b) const
 {
-	Tensor* x=new Tensor(*this);
-	(*x)+=b;
-	return *x;
+	Tensor x;
+	x.copy(*this);
+	x+=b;
+	return x;
+}
+
+Tensor & Tensor::operator-=(const Tensor & b)
+{
+	//assert shape match!
+	for (unsigned i=0; i<length; ++i)
+	{
+		p[i]-=b.p[i];
+	}
+	return *this;
+}
+
+Tensor Tensor::operator-(const Tensor& b) const
+{
+	Tensor x;
+	x.copy(*this);
+	x-=b;
+	return x;
 }
 }

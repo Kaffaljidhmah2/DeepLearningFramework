@@ -15,34 +15,42 @@ namespace dlframework{
 		int shape[TENSOR_MAX_DIM];
 		float * p;
 
+		Tensor();
 		Tensor(float);
 		Tensor(const std::initializer_list<unsigned> & init_shape);
-		Tensor(const Tensor & rhs);
+		Tensor(const Tensor & rhs); //change to shadow copy !
 		virtual ~Tensor();
 
+		void copy(const Tensor & rhs);
+
 		Tensor & operator=(const std::initializer_list<float> & array);
+		Tensor & operator=(const Tensor & rhs); //shadow copy
 		float & operator()(const std::initializer_list<unsigned> & indices);
 		Tensor & operator+=(const Tensor & b);
-		Tensor & operator+(const Tensor& b);
+		Tensor operator+(const Tensor& b) const;
+		Tensor & operator-=(const Tensor & b);
+		Tensor operator-(const Tensor & b) const;
 		
 		friend std::ostream& operator<<(std::ostream & o, const Tensor & rhs);
 	};
 
-	class baseOp;
+
 	class Variable{
 	public:
 		Tensor * data;
 		Tensor * grad;
-		baseOp * op;
+		int op;
 
+		Variable();
 		Variable(float);
 		Variable(const std::initializer_list<unsigned> & init_shape);
-		Variable(const Variable & rhs);
+		Variable(const Variable & rhs);	//shadow copy
 		Variable(Tensor & tensor);
 
-		void backward();
+		void clear_data();
 		void zero_grad();
 		friend std::ostream& operator<<(std::ostream & o, const Variable & rhs);
+		virtual ~Variable();
 	};
 
 	

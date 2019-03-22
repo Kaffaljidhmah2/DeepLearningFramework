@@ -10,18 +10,19 @@ class baseOp{
 public:	
 	int operand_num;
 	Variable * operand[OPERATOR_MAX_NUM];
-	baseOp(const std::initializer_list<Variable *> & operand_list);
-	virtual Variable & cal()=0;
-	virtual void bp(const Variable & res)=0;
-	void _call_bp();
+	Variable * result;
+	baseOp(const std::initializer_list<Variable *> & operand_res_list);
+	virtual void cal()=0;
+	virtual void bp()=0;
 	virtual ~baseOp(){};
 };
 
+// prefix with op_
 class op_Add:public baseOp{
 public:
-	op_Add(Variable & a, Variable & b);
-	virtual Variable & cal();
-	virtual void bp(const Variable & res);
+	op_Add(Variable & a, Variable & b, Variable & res);
+	virtual void cal();
+	virtual void bp();
 	virtual ~op_Add(){};
 };
 
