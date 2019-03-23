@@ -44,6 +44,7 @@ namespace dlframework{
 		int op;
 
 		Variable();
+		Variable(bool does_require_grad);
 		Variable(float);
 		Variable(const std::initializer_list<unsigned> & init_shape);
 		Variable(const Variable & rhs);	//shadow copy

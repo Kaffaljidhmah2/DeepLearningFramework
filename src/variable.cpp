@@ -8,6 +8,11 @@ Variable::Variable()
 	data=nullptr;grad=nullptr;op=-1;requires_grad=false;
 }
 
+Variable::Variable(bool does_require_grad)
+{
+	data=nullptr;grad=nullptr;op=-1;requires_grad=does_require_grad;
+}
+
 Variable::Variable(float x)
 {
 	data=new Tensor(x); //when should we delete data ?

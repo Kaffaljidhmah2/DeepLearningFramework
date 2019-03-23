@@ -8,7 +8,7 @@ std::vector<Variable*> Graph::v_stack;
 
 Variable & Graph::Add(Variable & a, Variable & b)
 {
-	v_stack.push_back(new Variable());
+	v_stack.push_back(new Variable(true));
 	op_stack.push_back(new op_Add(a,b,*v_stack.back()));
 	v_stack.back()->op=op_stack.size()-1;
 	return *v_stack.back();
@@ -16,7 +16,7 @@ Variable & Graph::Add(Variable & a, Variable & b)
 
 Variable & Graph::Sub(Variable & a, Variable & b)
 {
-	v_stack.push_back(new Variable());
+	v_stack.push_back(new Variable(true));
 	op_stack.push_back(new op_Sub(a,b,*v_stack.back()));
 	v_stack.back()->op=op_stack.size()-1;
 	return *v_stack.back();
@@ -24,7 +24,7 @@ Variable & Graph::Sub(Variable & a, Variable & b)
 
 Variable & Graph::MatMul(Variable & a, Variable & b)
 {
-	v_stack.push_back(new Variable());
+	v_stack.push_back(new Variable(true));
 	op_stack.push_back(new op_MatMul(a,b,*v_stack.back()));
 	v_stack.back()->op=op_stack.size()-1;
 	return *v_stack.back();
@@ -32,7 +32,7 @@ Variable & Graph::MatMul(Variable & a, Variable & b)
 
 Variable & Graph::InnerProduct(Variable & a, Variable & b)
 {
-	v_stack.push_back(new Variable());
+	v_stack.push_back(new Variable(true));
 	op_stack.push_back(new op_InnerProduct(a,b,*v_stack.back()));
 	v_stack.back()->op=op_stack.size()-1;
 	return *v_stack.back();
@@ -40,7 +40,7 @@ Variable & Graph::InnerProduct(Variable & a, Variable & b)
 
 Variable & Graph::ReLU(Variable & a)
 {
-	v_stack.push_back(new Variable());
+	v_stack.push_back(new Variable(true));
 	op_stack.push_back(new op_ReLU(a,*v_stack.back()));
 	v_stack.back()->op=op_stack.size()-1;
 	return *v_stack.back();
