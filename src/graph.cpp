@@ -1,5 +1,4 @@
 #include "dmap.h"
-#include <iostream>
 namespace dlframework{
 
 Graph::Graph(){}
@@ -46,12 +45,32 @@ void Graph::zero_grad()
 	}
 }
 
-void Graph::eval(const Variable & z)	// To do: compute a subgraph that is necessary for z.
+void Graph::eval(const Variable & z)	
 {
-	for (int curr_op=0; curr_op<=z.op; ++curr_op)
+	std::queue<int> que_tmp;
+	std::vector<int> cal_list;
+	if (z.op!=-1)
 	{
-		op_stack[curr_op]->cal();
+		que_tmp.push(z.op);
+		cal_list.push_back(z.op);	
 	}
+	while(!que_tmp.empty())
+	{
+		int curr_op=que_tmp.front();que_tmp.pop();
+		for (int i=0;i<op_stack[curr_op]->operand_num;++i)
+		{
+			int & next_op = op_stack[curr_op]->operand[i]->op;
+			if (next_op!=-1)
+			{
+				cal_list.push_back(next_op);
+				que_tmp.push(next_op);	
+			}
+		}
+	}
+	std::sort(cal_list.begin(), cal_list.end());
+
+	for (auto it=cal_list.begin();it!= cal_list.end();++it)
+		op_stack[*it]->cal();
 }
 
 void Graph::backward(Variable & z)
@@ -61,10 +80,32 @@ void Graph::backward(Variable & z)
 		z.grad=new Tensor(1);
 	}
 	//if (z.grad==nullptr) assert error!
-	for (int curr_op=z.op; curr_op>=0; --curr_op)
+
+	// Redundant 
+	std::queue<int> que_tmp;
+	std::vector<int> cal_list;
+	if (z.op!=-1)
 	{
-		op_stack[curr_op]->bp();
+		que_tmp.push(z.op);
+		cal_list.push_back(z.op);	
 	}
+	while(!que_tmp.empty())
+	{
+		int curr_op=que_tmp.front();que_tmp.pop();
+		for (int i=0;i<op_stack[curr_op]->operand_num;++i)
+		{
+			int & next_op = op_stack[curr_op]->operand[i]->op;
+			if (next_op!=-1)
+			{
+				cal_list.push_back(next_op);
+				que_tmp.push(next_op);	
+			}
+		}
+	}
+	std::sort(cal_list.begin(), cal_list.end());
+
+	for (auto it=cal_list.rbegin();it!= cal_list.rend();++it)
+		op_stack[*it]->bp();
 
 }
 

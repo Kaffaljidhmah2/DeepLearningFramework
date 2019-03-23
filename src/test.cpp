@@ -120,28 +120,40 @@ int main()
 	// cout<<*x.grad<<endl;
 	// cout<<*y.grad<<endl;
 
-	// Example 2
+	// Example 2 Gradient Descend
+	// Graph g;
+	// float lr=0.1;
+	// int total=200;
+
+	// Tensor x({2,1}),y({2,1});x={1,1};y={1,2};
+	// Variable vx(std::move(x)), vy(std::move(y));
+
+	// Variable M({2,2});*M.data={1,0,2,1};
+	// Variable & mx = g.MatMul(M,vx);
+	// Variable & residual = g.Sub(mx,vy);
+	// Variable & loss = g.InnerProduct(residual,residual);
+
+	// for (int epoch=0;epoch<total;++epoch)
+	// {
+	// 	g.eval(loss);
+	// 	cout<<loss.data->p[0]<<endl;
+	// 	g.zero_grad();
+	// 	g.backward(loss);
+	// 	*vx.data-=functional::cmul(lr,*vx.grad);
+	// 	//lr*=0.9;
+	// }
+
+	// Graph calculates only the expression that leads to it
+
 	Graph g;
-	float lr=0.1;
-	int total=200;
-
-	Tensor x({2,1}),y({2,1});x={1,1};y={1,2};
-	Variable vx(std::move(x)), vy(std::move(y));
-
-	Variable M({2,2});*M.data={1,0,2,1};
-	Variable & mx = g.MatMul(M,vx);
-	Variable & residual = g.Sub(mx,vy);
-	Variable & loss = g.InnerProduct(residual,residual);
-
-	for (int epoch=0;epoch<total;++epoch)
-	{
-		g.eval(loss);
-		cout<<loss.data->p[0]<<endl;
-		g.zero_grad();
-		g.backward(loss);
-		*vx.data-=functional::cmul(lr,*vx.grad);
-		//lr*=0.9;
-	}
+	Variable x(2),y(3),z(5);
+	Variable & w=g.Add(x,y);
+	Variable & t=g.Sub(y,z);
+	Variable & t2=g.MatMul(t,x);
+	g.eval(t2);
+	cout<<w<<endl;	// w will be empty because it doesn't lead to t2.
+	cout<<t<<endl;
+	cout<<t2<<endl;
 
 	return 0;
 }

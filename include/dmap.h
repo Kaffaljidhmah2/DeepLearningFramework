@@ -4,6 +4,8 @@
 #include "variable.h"
 #include "operator.h"
 #include <vector>
+#include <queue>
+#include <algorithm>
 
 namespace dlframework{
 
