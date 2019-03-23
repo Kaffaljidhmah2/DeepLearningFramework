@@ -76,8 +76,9 @@ int main()
 
 	// Functionals 
 
-	// Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
-	// cout<<x<<endl;cout<<y<<endl;
+	Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
+	cout<<x<<endl;cout<<y<<endl;
+	cout<<functional::relu(y)<<endl;
 	// //cout<<functional::add(x,y)<<endl;
 	// Tensor * p=new Tensor(functional::add(x,y));
 	// cout<<*p<<endl;
@@ -145,15 +146,15 @@ int main()
 
 	// Graph calculates only the expression that leads to it
 
-	Graph g;
-	Variable x(2),y(3),z(5);
-	Variable & w=g.Add(x,y);
-	Variable & t=g.Sub(y,z);
-	Variable & t2=g.MatMul(t,x);
-	g.eval(t2);
-	cout<<w<<endl;	// w will be empty because it doesn't lead to t2.
-	cout<<t<<endl;
-	cout<<t2<<endl;
+	// Graph g;
+	// Variable x(2),y(3),z(5);
+	// Variable & w=g.Add(x,y);
+	// Variable & t=g.Sub(y,z);
+	// Variable & t2=g.MatMul(t,x);
+	// g.eval(t2);
+	// cout<<w<<endl;	// w will be empty because it doesn't lead to t2.
+	// cout<<t<<endl;
+	// cout<<t2<<endl;
 
 	return 0;
 }

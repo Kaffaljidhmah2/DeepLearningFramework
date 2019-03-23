@@ -152,5 +152,13 @@ Tensor cmul(const float & c, const Tensor & rhs)
 	return res;	
 }
 
+Tensor relu(const Tensor & x)
+{
+	Tensor res(x,true);
+	for (int i=0;i<x.length;++i)
+		res.p[i]=std::max(x.p[i],0.f);
+	return res;
+}
+
 }//end functional
 }
