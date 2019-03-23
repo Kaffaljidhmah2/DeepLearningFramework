@@ -104,7 +104,7 @@ int main()
 	// // Build Graph
 
 
-	// Variable x(3),y(2);
+	// Variable x(3,true),y(2,true); //requires_grad=true
 	// Variable & w=Graph::Add(x,y);
 	// Variable & z=Graph::Add(x,w);
 
@@ -126,7 +126,7 @@ int main()
 	// int total=200;
 
 	// Tensor x({2,1}),y({2,1});x={1,1};y={1,2};
-	// Variable vx(std::move(x)), vy(std::move(y));
+	// Variable vx(std::move(x),true), vy(std::move(y));
 
 	// Variable M({2,2});*M.data={1,0,2,1};
 	// Variable & mx = Graph::MatMul(M,vx);
@@ -155,7 +155,7 @@ int main()
 	// cout<<t2<<endl;
 
 	// // Test for ReLU module
-	// Variable M({2,2});*M.data={-1,-2,-1,1};
+	// Variable M({2,2},true);*M.data={-1,-2,-1,1};
 	// Variable & out=Graph::ReLU(M);
 	// Variable & l=Graph::InnerProduct(out,out);
 	
