@@ -2,6 +2,7 @@
 #include "operator.h"
 #include "functional.h"
 #include "dmap.h"
+#include "nn.h"
 #include <iostream>
 
 using namespace std;
@@ -152,6 +153,64 @@ int main()
 	// cout<<w<<endl;	// w will be empty because it doesn't lead to t2.
 	// cout<<t<<endl;
 	// cout<<t2<<endl;
+
+	// // Test for ReLU module
+	// Variable M({2,2});*M.data={-1,-2,-1,1};
+	// Variable & out=Graph::ReLU(M);
+	// Variable & l=Graph::InnerProduct(out,out);
+	
+	// Graph::eval(l);
+	// Graph::zero_grad();
+	// Graph::backward(l);
+	// cout<<*M.grad<<endl;
+
+	// // Test for Linear module
+
+	// Variable x({3,1});*x.data={20,0.2,-0.3};
+	// nn::Linear fc(3,2);
+	// *fc.weight.data={1,2,3,4,5,10};
+	// *fc.bias.data={0,2,3};
+	// Variable y({2,1});*y.data={1,-1,0};
+	// Variable & out=fc(x);
+	// Variable & residual=Graph::Sub(out,y);
+	// Variable & loss=Graph::InnerProduct(residual,residual);
+
+	// float lr=0.001;
+	// for (int epoch=0;epoch<20;++epoch)
+	// {
+	// 	Graph::eval(loss);
+	// 	Graph::zero_grad();
+	// 	Graph::backward(loss);
+	// 	// cout<<Graph::v_stack.size()<<endl;
+	// 	// cout<<Graph::op_stack.size()<<endl;
+	// 	// cout<<fc.weight<<endl;
+	// 	// cout<<fc.bias<<endl;
+	// 	// cout<<out<<endl;
+	// 	cout<<loss.data->p[0]<<endl;
+
+	// 	//cout<<*fc.weight.grad<<endl;
+	// 	*fc.weight.data-=functional::cmul(lr,*fc.weight.grad);
+	// 	*fc.bias.data-=functional::cmul(lr,*fc.bias.grad);	
+	// }
+	
+	// Define your module !
+
+	// class mynet{
+	// public:
+	// 	nn::Linear fc1;
+	// 	nn::Linear fc2;
+	// 	mynet():fc1(3,5),fc2(5,1){}
+
+	// 	Variable & operator()(Variable & x)
+	// 	{
+	// 		Variable & out1=fc1(x);
+	// 		Variable & out2=Graph::ReLU(out1);
+	// 		Variable & out3=fc2(out2);
+	// 		return out3;
+	// 	}
+	// };
+
+	// mynet T;
 
 	return 0;
 }
