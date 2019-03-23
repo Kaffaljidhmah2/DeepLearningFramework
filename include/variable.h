@@ -40,6 +40,7 @@ namespace dlframework{
 	public:
 		Tensor * data;
 		Tensor * grad;
+		bool requires_grad; //existing data: false; trainable parameters & intermediate results: true
 		int op;
 
 		Variable();

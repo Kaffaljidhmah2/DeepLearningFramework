@@ -5,7 +5,7 @@ namespace dlframework{
 
 Variable::Variable()
 {
-	data=nullptr;grad=nullptr;op=-1;
+	data=nullptr;grad=nullptr;op=-1;requires_grad=false;
 }
 
 Variable::Variable(float x)
@@ -13,12 +13,14 @@ Variable::Variable(float x)
 	data=new Tensor(x); //when should we delete data ?
 	grad=nullptr;
 	op=-1;
+	requires_grad=false;
 }
 Variable::Variable(const std::initializer_list<unsigned> & init_shape)
 {
 	data=new Tensor(init_shape);
 	grad=nullptr;
 	op=-1;
+	requires_grad=false;
 }
 Variable::Variable(const Variable & rhs) //Shadow Copy
 {
@@ -26,6 +28,7 @@ Variable::Variable(const Variable & rhs) //Shadow Copy
 	data=rhs.data;
 	grad=rhs.grad;
 	op=rhs.op;
+	requires_grad=rhs.requires_grad;
 }
 Variable::Variable(Variable && rhs)
 {
@@ -33,9 +36,11 @@ Variable::Variable(Variable && rhs)
 	data=rhs.data;
 	grad=rhs.grad;
 	op=rhs.op;
+	requires_grad=rhs.requires_grad;
 	rhs.data=nullptr;
 	rhs.grad=nullptr;
 	rhs.op=-1;
+	rhs.requires_grad=false;
 }
 
 
@@ -45,6 +50,7 @@ Variable::Variable(Tensor & tensor)
 	data=new Tensor(tensor);
 	grad=nullptr;
 	op=-1;
+	requires_grad=false;
 }
 
 Variable::Variable(Tensor && tensor)
@@ -53,6 +59,7 @@ Variable::Variable(Tensor && tensor)
 	data=new Tensor(std::move(tensor));
 	grad=nullptr;
 	op=-1;
+	requires_grad=false;
 }
 
 //void Variable::backward()
