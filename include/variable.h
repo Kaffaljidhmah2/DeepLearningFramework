@@ -19,6 +19,7 @@ namespace dlframework{
 		Tensor(float);
 		Tensor(const std::initializer_list<unsigned> & init_shape);
 		Tensor(const Tensor & rhs);
+		Tensor(const Tensor & rhs, bool shape_only);
 		Tensor(Tensor && rhs); 
 		virtual ~Tensor();
 
@@ -45,7 +46,8 @@ namespace dlframework{
 		Variable(float);
 		Variable(const std::initializer_list<unsigned> & init_shape);
 		Variable(const Variable & rhs);	//shadow copy
-		Variable(Tensor & tensor);
+		Variable(Tensor & tensor); //identity copy of a new tensor.
+		Variable(Tensor && tensor);
 
 		void clear_data();
 		void zero_grad();

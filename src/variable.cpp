@@ -1,6 +1,6 @@
 #include "variable.h"
 #include "operator.h"
-
+#include <iostream>
 namespace dlframework{
 
 Variable::Variable()
@@ -29,7 +29,16 @@ Variable::Variable(const Variable & rhs) //Shadow Copy
 
 Variable::Variable(Tensor & tensor)
 {
+	std::cout<<"Copy wrapper of a lvalue"<<std::endl;
 	data=new Tensor(tensor);
+	grad=nullptr;
+	op=-1;
+}
+
+Variable::Variable(Tensor && tensor)
+{
+	std::cout<<"Move wrapper of a rvalue"<<std::endl;
+	data=new Tensor(std::move(tensor));
 	grad=nullptr;
 	op=-1;
 }

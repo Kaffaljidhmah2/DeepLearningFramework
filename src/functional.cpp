@@ -1,5 +1,6 @@
 #include "variable.h"
 #include "functional.h"
+#include <algorithm>
 
 namespace dlframework{
 namespace functional{
@@ -59,18 +60,18 @@ Tensor sub(const Tensor & a, const Tensor & b)
 Tensor max(const Tensor & a, const Tensor & b)
 {
 	//assert a.shape==b.shape
-	Tensor res(a);
+	Tensor res(a,true);
 	for (int i=0;i<a.length;++i)
-		if (res.p[i]<b.p[i]) res.p[i]=b.p[i];
+		res.p[i]=std::max(a.p[i],b.p[i]);
 	return res;
 
 }
 Tensor min(const Tensor & a, const Tensor & b)
 {
 	//assert a.shape==b.shape
-	Tensor res(a);
+	Tensor res(a,true);
 	for (int i=0;i<a.length;++i)
-		if (res.p[i]>b.p[i]) res.p[i]=b.p[i];
+		res.p[i]=std::min(a.p[i],b.p[i]);
 	return res;
 }
 
