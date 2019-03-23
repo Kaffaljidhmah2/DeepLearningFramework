@@ -46,7 +46,7 @@ namespace dlframework{
 		Variable();
 		Variable(bool does_require_grad);
 		Variable(float);
-		Variable(const std::initializer_list<unsigned> & init_shape);
+		Variable(const std::initializer_list<unsigned> & init_shape, bool does_require_grad=false);
 		Variable(const Variable & rhs);	//shadow copy
 		Variable(Variable && rhs);	
 		Variable(Tensor & tensor); //identity copy of a new tensor.

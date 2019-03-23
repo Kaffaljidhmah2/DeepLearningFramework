@@ -20,12 +20,12 @@ Variable::Variable(float x)
 	op=-1;
 	requires_grad=false;
 }
-Variable::Variable(const std::initializer_list<unsigned> & init_shape)
+Variable::Variable(const std::initializer_list<unsigned> & init_shape, bool does_require_grad);
 {
 	data=new Tensor(init_shape);
 	grad=nullptr;
 	op=-1;
-	requires_grad=false;
+	requires_grad=does_require_grad;
 }
 Variable::Variable(const Variable & rhs) //Shadow Copy
 {
