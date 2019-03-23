@@ -60,10 +60,15 @@ int main()
 	// Variable y(1.2);cout<<y<<endl;
 	// Variable w(y); w.clear_data(); cout<<y<<endl; //Error !  > Use smart pointer!
 
-	//Variable is a container of Tensor
-	//Variable holds a deep copy of a tensor
+	// Variable is a container of Tensor
+	// Variable holds a deep copy of a tensor
 	// Tensor tx({2,3});Variable vx(tx); cout<<vx<<endl;
 	// tx={2,3,7};cout<<tx<<endl; cout<<vx<<endl;
+
+	// // To avoid deep copy, use std::move instead !
+
+	// Variable vx_(std::move(tx));
+	// cout<<tx<<endl;
 
 	// //std::move
 	// Variable v(Tensor({2,3}));
@@ -86,6 +91,9 @@ int main()
 	// cout<<functional::matmul(x,y)<<endl;
 	// // 1 2  1 0   =   1 2 
 	// // 2 1  0 1   =   2 1
+
+
+
 
 
 

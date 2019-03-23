@@ -67,16 +67,24 @@ Tensor::Tensor(Tensor && rhs)
 	length=rhs.length;
 	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
 	p=rhs.p;
+	rhs.dim=0;rhs.length=0;rhs.shape[0]=1;
 	rhs.p=nullptr;
 }
 
 std::ostream& operator<<(std::ostream & o, const Tensor & rhs)
 {
-	o<<"Tensor with dim="<<rhs.dim<<", shape=(";
-	for (int i=0;i<rhs.dim;++i) o<<rhs.shape[i]<<',';
-	o<<")"<<std::endl;
-	for (int i=0;i<rhs.length;++i)
-		{o<<rhs.p[i]<<' ';}
+	if (rhs.dim!=0)
+	{
+		o<<"Tensor with dim="<<rhs.dim<<", shape=(";
+		for (int i=0;i<rhs.dim;++i) o<<rhs.shape[i]<<',';
+		o<<")"<<std::endl;
+		for (int i=0;i<rhs.length;++i)
+			{o<<rhs.p[i]<<' ';}
+	}
+	else
+	{
+		o<<"Empty Tensor"<<std::endl;
+	}
 	return o;
 }
 
@@ -117,6 +125,7 @@ Tensor & Tensor::operator=(Tensor && rhs)
 		length=rhs.length;
 		for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
 		p=rhs.p;
+		rhs.dim=0;rhs.length=0;rhs.shape[0]=1;
 		rhs.p=nullptr;
 	}	
 	return *this;
