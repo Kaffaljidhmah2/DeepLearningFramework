@@ -1,7 +1,7 @@
 #include "variable.h"
 #include "operator.h"
 
-#include <iostream>//debug
+//#include <iostream>//debug
 
 namespace dlframework{
 
@@ -39,7 +39,7 @@ Tensor::Tensor()
 
  Tensor::Tensor(const Tensor & rhs)
 {
-	std::cout<<"Deep Copy"<<std::endl;
+	//std::cout<<"Deep Copy"<<std::endl;
 	dim=rhs.dim;
 	length=rhs.length;
 	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
@@ -62,7 +62,7 @@ Tensor::Tensor(const Tensor & rhs, bool shape_only)
 
 Tensor::Tensor(Tensor && rhs)
 {
-	std::cout<<"Move"<<std::endl;
+	//std::cout<<"Move"<<std::endl;
 	dim=rhs.dim;
 	length=rhs.length;
 	for (unsigned i=0;i<=dim;++i) shape[i]=rhs.shape[i];
@@ -104,7 +104,7 @@ Tensor & Tensor::operator=(const Tensor & rhs)
 {
 	if (this != &rhs)
 	{
-		std::cout<<"Deep Copy Assign"<<std::endl;
+		//std::cout<<"Deep Copy Assign"<<std::endl;
 		if (p!=nullptr) delete[] p;
 		dim=rhs.dim;
 		length=rhs.length;
@@ -119,7 +119,7 @@ Tensor & Tensor::operator=(Tensor && rhs)
 {
 	if (this != &rhs)
 	{
-		std::cout<<"Move Assign"<<std::endl;
+		//std::cout<<"Move Assign"<<std::endl;
 		if (p!=nullptr) delete[] p;
 		dim=rhs.dim;
 		length=rhs.length;

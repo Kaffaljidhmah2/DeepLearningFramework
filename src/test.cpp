@@ -1,6 +1,7 @@
 #include "variable.h"
 #include "operator.h"
 #include "functional.h"
+#include "dmap.h"
 #include <iostream>
 
 using namespace std;
@@ -77,7 +78,10 @@ int main()
 
 	// Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
 	// cout<<x<<endl;cout<<y<<endl;
-	// cout<<functional::add(x,y)<<endl;
+	// //cout<<functional::add(x,y)<<endl;
+	// Tensor * p=new Tensor(functional::add(x,y));
+	// cout<<*p<<endl;
+
 	// cout<<functional::add(y,x)<<endl;
 	// cout<<functional::sub(x,y)<<endl;
 	// cout<<functional::sub(y,x)<<endl;
@@ -86,17 +90,58 @@ int main()
 	// cout<<functional::max(x,y)<<endl;
 	// cout<<functional::min(x,y)<<endl;
 
-	// Tensor x({2,2}),y({2,2});x={1,2,2,1};y={1,0,0,1};
+	// Tensor x({2,2}),y({2,2});x={1,2,2,1};y={1,0,1,1};
 	// cout<<x<<endl;cout<<y<<endl;
 	// cout<<functional::matmul(x,y)<<endl;
-	// // 1 2  1 0   =   1 2 
-	// // 2 1  0 1   =   2 1
+	// cout<<functional::matmul_T(x,y)<<endl;
+	// cout<<functional::T_matmul(x,y)<<endl;
+	// // 1 2  1 0   =   3 2 
+	// // 2 1  1 1   =   3 1
 
 
+	// // Build Graph
 
+	// Graph g;
 
+	// Variable x(3),y(2);
+	// Variable & w=g.Add(x,y);
+	// Variable & z=g.Add(w,w);
 
+	// // Don't write Variable z=g.Add(x,y); the move constructor will ruin the variable stored in g !
 
+	// // g builds graph first
+	// cout<<z<<endl;
+	
+	// g.eval(z);
+	// cout<<z<<endl;
+
+	// //Auto_diff
+	// g.backward(z);
+	// cout<<*x.grad<<endl;
+	// cout<<*y.grad<<endl;
+
+	// Example 2
+	Graph g;
+	float lr=0.1;
+	int total=200;
+
+	Tensor x({2,1}),y({2,1});x={1,1};y={1,2};
+	Variable vx(std::move(x)), vy(std::move(y));
+
+	Variable M({2,2});*M.data={1,0,2,1};
+	Variable & mx = g.MatMul(M,vx);
+	Variable & residual = g.Sub(mx,vy);
+	Variable & loss = g.InnerProduct(residual,residual);
+
+	for (int epoch=0;epoch<total;++epoch)
+	{
+		g.eval(loss);
+		cout<<loss.data->p[0]<<endl;
+		g.zero_grad();
+		g.backward(loss);
+		*vx.data-=functional::cmul(lr,*vx.grad);
+		//lr*=0.9;
+	}
 
 	return 0;
 }

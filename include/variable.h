@@ -46,6 +46,7 @@ namespace dlframework{
 		Variable(float);
 		Variable(const std::initializer_list<unsigned> & init_shape);
 		Variable(const Variable & rhs);	//shadow copy
+		Variable(Variable && rhs);	
 		Variable(Tensor & tensor); //identity copy of a new tensor.
 		Variable(Tensor && tensor);
 

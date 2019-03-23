@@ -1,6 +1,6 @@
 #include "variable.h"
 #include "operator.h"
-#include <iostream>
+//#include <iostream>
 namespace dlframework{
 
 Variable::Variable()
@@ -22,14 +22,26 @@ Variable::Variable(const std::initializer_list<unsigned> & init_shape)
 }
 Variable::Variable(const Variable & rhs) //Shadow Copy
 {
+	//std::cout<<"Variable copy constructor called"<<std::endl;
 	data=rhs.data;
 	grad=rhs.grad;
 	op=rhs.op;
 }
+Variable::Variable(Variable && rhs)
+{
+	//std::cout<<"Variable move constructor called"<<std::endl;
+	data=rhs.data;
+	grad=rhs.grad;
+	op=rhs.op;
+	rhs.data=nullptr;
+	rhs.grad=nullptr;
+	rhs.op=-1;
+}
+
 
 Variable::Variable(Tensor & tensor)
 {
-	std::cout<<"Copy wrapper of a lvalue"<<std::endl;
+	//std::cout<<"Copy wrapper of a lvalue"<<std::endl;
 	data=new Tensor(tensor);
 	grad=nullptr;
 	op=-1;
@@ -37,7 +49,7 @@ Variable::Variable(Tensor & tensor)
 
 Variable::Variable(Tensor && tensor)
 {
-	std::cout<<"Move wrapper of a rvalue"<<std::endl;
+	//std::cout<<"Move wrapper of a rvalue"<<std::endl;
 	data=new Tensor(std::move(tensor));
 	grad=nullptr;
 	op=-1;
@@ -75,6 +87,7 @@ std::ostream& operator<<(std::ostream & o, const Variable & rhs)
 
 Variable::~Variable()
 {
+	//std::cout<<"~Variable"<<std::endl;
 	if (data!=nullptr) delete data;
 	if (grad!=nullptr) delete grad;
 }

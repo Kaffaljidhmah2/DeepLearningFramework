@@ -26,6 +26,30 @@ public:
 	virtual ~op_Add(){};
 };
 
+class op_Sub:public baseOp{
+public:
+	op_Sub(Variable & a, Variable & b, Variable & res);
+	virtual void cal();
+	virtual void bp();
+	virtual ~op_Sub(){};
+};
+
+class op_MatMul:public baseOp{
+public:
+	op_MatMul(Variable & a, Variable & b, Variable & res);
+	virtual void cal();
+	virtual void bp();
+	virtual ~op_MatMul(){};
+};
+
+class op_InnerProduct:public baseOp{
+public:
+	op_InnerProduct(Variable & a, Variable & b, Variable & res);
+	virtual void cal();
+	virtual void bp();
+	virtual ~op_InnerProduct(){};	
+};
+
 
 } //end dlframework
 
