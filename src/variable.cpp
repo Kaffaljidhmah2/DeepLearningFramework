@@ -3,22 +3,17 @@
 //#include <iostream>
 namespace dlframework{
 
-Variable::Variable()
-{
-	data=nullptr;grad=nullptr;op=-1;requires_grad=false;
-}
-
 Variable::Variable(bool does_require_grad)
 {
 	data=nullptr;grad=nullptr;op=-1;requires_grad=does_require_grad;
 }
 
-Variable::Variable(float x)
+Variable::Variable(float x, bool does_require_grad)
 {
 	data=new Tensor(x); //when should we delete data ?
 	grad=nullptr;
 	op=-1;
-	requires_grad=false;
+	requires_grad=does_require_grad;
 }
 Variable::Variable(const std::initializer_list<unsigned> & init_shape, bool does_require_grad);
 {
@@ -49,22 +44,22 @@ Variable::Variable(Variable && rhs)
 }
 
 
-Variable::Variable(Tensor & tensor)
+Variable::Variable(Tensor & tensor, bool does_require_grad)
 {
 	//std::cout<<"Copy wrapper of a lvalue"<<std::endl;
 	data=new Tensor(tensor);
 	grad=nullptr;
 	op=-1;
-	requires_grad=false;
+	requires_grad=does_require_grad;
 }
 
-Variable::Variable(Tensor && tensor)
+Variable::Variable(Tensor && tensor, bool does_require_grad)
 {
 	//std::cout<<"Move wrapper of a rvalue"<<std::endl;
 	data=new Tensor(std::move(tensor));
 	grad=nullptr;
 	op=-1;
-	requires_grad=false;
+	requires_grad=does_require_grad;
 }
 
 //void Variable::backward()

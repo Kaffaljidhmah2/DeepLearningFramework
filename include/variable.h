@@ -43,14 +43,13 @@ namespace dlframework{
 		bool requires_grad; //existing data: false; trainable parameters & intermediate results: true
 		int op;
 
-		Variable();
-		Variable(bool does_require_grad);
-		Variable(float);
+		Variable(bool does_require_grad=false);
+		Variable(float x, bool does_require_grad=false);
 		Variable(const std::initializer_list<unsigned> & init_shape, bool does_require_grad=false);
 		Variable(const Variable & rhs);	//shadow copy
 		Variable(Variable && rhs);	
-		Variable(Tensor & tensor); //identity copy of a new tensor.
-		Variable(Tensor && tensor);
+		Variable(Tensor & tensor, bool does_require_grad=false); //identity copy of a new tensor.
+		Variable(Tensor && tensor, bool does_require_grad=false);
 
 		void clear_data();
 		void zero_grad();
