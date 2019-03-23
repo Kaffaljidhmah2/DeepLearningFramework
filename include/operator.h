@@ -50,6 +50,14 @@ public:
 	virtual ~op_InnerProduct(){};	
 };
 
+class op_ReLU:public baseOp{
+public:
+	op_ReLU(Variable & x, Variable & res);
+	virtual void cal();
+	virtual void bp();
+	virtual ~op_ReLU(){};		
+};
+
 
 } //end dlframework
 

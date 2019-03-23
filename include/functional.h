@@ -19,6 +19,7 @@ Tensor neg(const Tensor & a);
 
 Tensor inner_prod(const Tensor & a, const Tensor & b);
 Tensor relu(const Tensor & x);
+Tensor drelu(const Tensor & input, const Tensor & grad);
 
 }
 }

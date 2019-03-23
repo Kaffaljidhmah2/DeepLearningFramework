@@ -38,6 +38,14 @@ Variable & Graph::InnerProduct(Variable & a, Variable & b)
 	return *v_stack.back();
 }
 
+Variable & Graph::ReLU(Variable & a)
+{
+	v_stack.push_back(new Variable());
+	op_stack.push_back(new op_ReLU(a,*v_stack.back()));
+	v_stack.back()->op=op_stack.size()-1;
+	return *v_stack.back();
+}
+
 void Graph::zero_grad()
 {
 	for (auto it=op_stack.begin();it!=op_stack.end();++it)

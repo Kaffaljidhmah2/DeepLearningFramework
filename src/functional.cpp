@@ -160,5 +160,13 @@ Tensor relu(const Tensor & x)
 	return res;
 }
 
+Tensor drelu(const Tensor & input, const Tensor & grad)
+{
+	Tensor res(grad,true);
+	for (int i=0;i<grad.length;++i)
+		res.p[i]=(input.p[i]>0)?grad.p[i]:0;
+	return res;
+}
+
 }//end functional
 }

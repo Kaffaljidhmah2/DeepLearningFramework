@@ -98,4 +98,21 @@ void op_InnerProduct::bp()
 		*(operand[1]->grad) += *operand[0]->data;
 }
 
+
+op_ReLU::op_ReLU(Variable & x, Variable & res):baseOp({& x, & res}){}
+
+void op_ReLU::cal()
+{
+	result->clear_data();
+	result->data=new Tensor(functional::relu(*operand[0]->data));
+}
+void op_ReLU::bp()
+{
+	if (operand[0]->grad==nullptr)
+		operand[0]->grad = new Tensor(functional::drelu(*operand[0]->data, *result->grad));
+	else
+		*(operand[0]->grad) += functional::drelu(*operand[0]->data, *result->grad);
+
+}
+
 } //end dlframework

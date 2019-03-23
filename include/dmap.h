@@ -24,6 +24,7 @@ public:
 	static Variable & Sub(Variable &, Variable &);
 	static Variable & MatMul(Variable &, Variable &);
 	static Variable & InnerProduct(Variable & , Variable &);
+	static Variable & ReLU(Variable &);
 
 	//virtual ~Graph();
 };
