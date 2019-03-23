@@ -1,8 +1,10 @@
 #include "dmap.h"
 namespace dlframework{
 
-Graph::Graph(){}
+// Graph::Graph(){}
 
+std::vector<baseOp*> Graph::op_stack; 
+std::vector<Variable*> Graph::v_stack;
 
 Variable & Graph::Add(Variable & a, Variable & b)
 {
@@ -115,10 +117,10 @@ void Graph::clear()
 	v_stack.clear();
 }
 
-Graph::~Graph()
-{
-	op_stack.clear();
-	v_stack.clear();
-}
+// Graph::~Graph()
+// {
+// 	op_stack.clear();
+// 	v_stack.clear();
+// }
 
 }

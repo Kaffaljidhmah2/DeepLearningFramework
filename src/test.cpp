@@ -76,9 +76,9 @@ int main()
 
 	// Functionals 
 
-	Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
-	cout<<x<<endl;cout<<y<<endl;
-	cout<<functional::relu(y)<<endl;
+	// Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
+	// cout<<x<<endl;cout<<y<<endl;
+	// cout<<functional::relu(y)<<endl;
 	// //cout<<functional::add(x,y)<<endl;
 	// Tensor * p=new Tensor(functional::add(x,y));
 	// cout<<*p<<endl;
@@ -102,24 +102,23 @@ int main()
 
 	// // Build Graph
 
-	// Graph g;
 
-	// Variable x(3),y(2);
-	// Variable & w=g.Add(x,y);
-	// Variable & z=g.Add(w,w);
+	Variable x(3),y(2);
+	Variable & w=Graph::Add(x,y);
+	Variable & z=Graph::Add(w,w);
 
-	// // Don't write Variable z=g.Add(x,y); the move constructor will ruin the variable stored in g !
+	// Don't write Variable z=Graph.Add(x,y); the move constructor will ruin the variable stored in Graph !
 
-	// // g builds graph first
-	// cout<<z<<endl;
+	// Graph builds graph first
+	cout<<z<<endl;
 	
-	// g.eval(z);
-	// cout<<z<<endl;
+	Graph::eval(z);
+	cout<<z<<endl;
 
-	// //Auto_diff
-	// g.backward(z);
-	// cout<<*x.grad<<endl;
-	// cout<<*y.grad<<endl;
+	//Auto_diff
+	Graph::backward(z);
+	cout<<*x.grad<<endl;
+	cout<<*y.grad<<endl;
 
 	// Example 2 Gradient Descend
 	// Graph g;
