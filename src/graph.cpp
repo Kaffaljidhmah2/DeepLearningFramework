@@ -68,7 +68,8 @@ void Graph::eval(const Variable & z)
 		}
 	}
 	std::sort(cal_list.begin(), cal_list.end());
-
+  	auto end=std::unique(cal_list.begin(), cal_list.end());
+  	cal_list.resize(std::distance(cal_list.begin(),end)); 
 	for (auto it=cal_list.begin();it!= cal_list.end();++it)
 		op_stack[*it]->cal();
 }
@@ -103,7 +104,8 @@ void Graph::backward(Variable & z)
 		}
 	}
 	std::sort(cal_list.begin(), cal_list.end());
-
+	auto end=std::unique(cal_list.begin(), cal_list.end());
+  	cal_list.resize(std::distance(cal_list.begin(),end)); 
 	for (auto it=cal_list.rbegin();it!= cal_list.rend();++it)
 		op_stack[*it]->bp();
 
