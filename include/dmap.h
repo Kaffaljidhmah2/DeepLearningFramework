@@ -15,6 +15,7 @@ public:
 	static std::vector<Variable*> v_stack; //temporary variables; intermediate results of calculation.
 	//Graph();
 	static void zero_grad();
+	static std::vector<int> _get_subgraph(const Variable &);
 	static void eval(const Variable &);
 	static void backward(Variable &);
 	static void clear();

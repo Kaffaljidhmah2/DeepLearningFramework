@@ -55,7 +55,7 @@ void Graph::zero_grad()
 	}
 }
 
-void Graph::eval(const Variable & z)	
+std::vector<int> Graph::_get_subgraph(const Variable & z)
 {
 	std::queue<int> que_tmp;
 	std::vector<int> cal_list;
@@ -80,6 +80,12 @@ void Graph::eval(const Variable & z)
 	std::sort(cal_list.begin(), cal_list.end());
   	auto end=std::unique(cal_list.begin(), cal_list.end());
   	cal_list.resize(std::distance(cal_list.begin(),end)); 
+  	return cal_list;
+}
+
+void Graph::eval(const Variable & z)	
+{
+	cal_list=_get_subgraph(z);
 	for (auto it=cal_list.begin();it!= cal_list.end();++it)
 		op_stack[*it]->cal();
 }
@@ -92,30 +98,7 @@ void Graph::backward(Variable & z)
 	}
 	//if (z.grad==nullptr) assert error!
 
-	// Redundant 
-	std::queue<int> que_tmp;
-	std::vector<int> cal_list;
-	if (z.op!=-1)
-	{
-		que_tmp.push(z.op);
-		cal_list.push_back(z.op);	
-	}
-	while(!que_tmp.empty())
-	{
-		int curr_op=que_tmp.front();que_tmp.pop();
-		for (int i=0;i<op_stack[curr_op]->operand_num;++i)
-		{
-			int & next_op = op_stack[curr_op]->operand[i]->op;
-			if (next_op!=-1)
-			{
-				cal_list.push_back(next_op);
-				que_tmp.push(next_op);	
-			}
-		}
-	}
-	std::sort(cal_list.begin(), cal_list.end());
-	auto end=std::unique(cal_list.begin(), cal_list.end());
-  	cal_list.resize(std::distance(cal_list.begin(),end)); 
+	cal_list=_get_subgraph(z);
 	for (auto it=cal_list.rbegin();it!= cal_list.rend();++it)
 		op_stack[*it]->bp();
 
