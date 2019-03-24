@@ -310,14 +310,16 @@ int main()
 	SGDOptimizer myoptim(batch_size, learning_rate, weight_decay);
 
 
+	int ran_indices[60000];
+	for (int i=0;i<ran_indices;++i) ran_indices[i]=i;
 	for (int epoch=0;epoch<1;++epoch)	
 	{
+		random_shuffle(ran_indices,ran_indices+60000);
 		for (int inner_loop=0; inner_loop<10000; ++inner_loop)
 		{
 			//Manual Assign tensor to x and y.
-			// Random SHUFLLE !!!!!!!!!!!
-			x.data=train_image[inner_loop];
-			y.data=train_label[inner_loop];
+			x.data=train_image[ran_indices[inner_loop]];
+			y.data=train_label[ran_indices[inner_loop]];
 			Graph::eval(loss);
 			if ((inner_loop+1) % batch_size ==0)
 				cout<<loss.data->p[0]<<endl;
