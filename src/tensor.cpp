@@ -29,6 +29,20 @@ namespace dlframework{
 	p=new float[length];
 }
 
+void TensorReshape(const std::initializer_list<unsigned> & init_shape){
+	dim = init_shape.end()-init_shape.begin();
+	unsigned i=0;
+	int new_length=1;
+	for (auto iter=init_shape.begin(); iter!= init_shape.end(); ++iter)
+	{
+		shape[i++]=*iter;
+		new_length*=*iter;
+	}
+	shape[dim]=1;
+	if (new_length!=length) {//assert error
+	}
+}
+
 //overload all constructors !
 
 Tensor::Tensor()
