@@ -13,6 +13,8 @@ Linear::Linear(unsigned in_dim, unsigned out_dim, bool has_bias):weight({out_dim
 		bias.requires_grad=true;
 	}
 	// initialize weight matrix!
+	Init::normal(*weight.data);
+	Init::uniform(*bias.data);
 	Optimizer::Params.push_back(&weight);
 	Optimizer::Params.push_back(&bias);
 }

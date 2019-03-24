@@ -66,6 +66,7 @@ namespace dlframework{
 		static std::default_random_engine dlframework_random_generator;
 		static void set_seed(unsigned val);
 		static void normal(Tensor & x, float mean=0.0, float std=1.0);
+		static void uniform(Tensor & x, float a=0.0, float b=1.0);
 	};
 
 

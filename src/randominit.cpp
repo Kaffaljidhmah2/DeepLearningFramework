@@ -15,4 +15,14 @@ void Init::normal(Tensor & x, float mean, float std)
 		x.p[i]=dist(dlframework_random_generator);
 	}
 }
+
+void Init::uniform(Tensor & x, float a, float b)
+{
+	std::uniform_real_distribution<float> dist(a,b);
+	for (int i=0;i<x.length;++i)
+	{
+		x.p[i]=dist(dlframework_random_generator);
+	}	
+}
+
 }
