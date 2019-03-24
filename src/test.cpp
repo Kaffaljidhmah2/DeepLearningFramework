@@ -99,12 +99,20 @@ int main()
 	// cout<<functional::matmul(x,y)<<endl;
 	// cout<<functional::matmul_T(x,y)<<endl;
 	// cout<<functional::T_matmul(x,y)<<endl;
+
 	// // 1 2  1 0   =   3 2 
 	// // 2 1  1 1   =   3 1
 
 
+	// //Softmax
+	// Tensor x({2,2});x={0,0,0,0};
+	// cout<<functional::softmax(x)<<endl;
+
+	
+
+
 	// Random number test
-	// Init::set_seed(std::chrono::system_clock::now().time_since_epoch().count());
+	Init::set_seed(std::chrono::system_clock::now().time_since_epoch().count());
 
 	// Tensor x({20000}); Init::normal(x);
 	// cout<<functional::mean(x)<<endl;

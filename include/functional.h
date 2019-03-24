@@ -22,6 +22,9 @@ Tensor relu(const Tensor & x);
 Tensor drelu(const Tensor & input, const Tensor & grad);
 Tensor mean(const Tensor & x);
 Tensor e_mul(const Tensor & x, const Tensor & y);
+Tensor sum(const Tensor & x);
+
+Tensor softmax(const Tensor & x);
 
 }
 }

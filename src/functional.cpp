@@ -1,6 +1,7 @@
 #include "variable.h"
 #include "functional.h"
 #include <algorithm>
+#include <cmath>
 
 namespace dlframework{
 namespace functional{
@@ -177,6 +178,14 @@ Tensor mean(const Tensor & x)
 	return res;
 }
 
+Tensor sum(const Tensor & x)
+{
+	Tensor res(0.0);
+	for (int i=0;i<x.length;++i)
+		res.p[0]+=x.p[i];
+	return res;
+}
+
 Tensor e_mul(const Tensor & x, const Tensor & y)
 {
 	//assert a.shape==b.shape
@@ -185,6 +194,21 @@ Tensor e_mul(const Tensor & x, const Tensor & y)
 	{
 		res.p[i]=x.p[i]*y.p[i];
 	}
+	return res;
+}
+
+Tensor softmax(const Tensor & x)
+{
+	Tensor res(x,true);
+	float & _to_del=*std::max_element(x.p, x.p+x.length);
+	float Z=0.0;
+	for (int i=0;i<x.length;++i)
+	{
+		res.p[i]=exp(x.p[i]-_to_del);
+		Z += res.p[i];
+	}
+	for (int i=0;i<x.length;++i)
+		res.p[i]/=Z;
 	return res;
 }
 
