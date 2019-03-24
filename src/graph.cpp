@@ -45,6 +45,13 @@ Variable & Graph::ReLU(Variable & a)
 	v_stack.back()->op=op_stack.size()-1;
 	return *v_stack.back();
 }
+Variable & Graph::SoftmaxCrossEntropy(Variable & x, Variable & label)
+{
+	v_stack.push_back(new Variable(true));
+	op_stack.push_back(new op_SoftmaxCrossEntropy(x, label,*v_stack.back()));
+	v_stack.back()->op=op_stack.size()-1;
+	return *v_stack.back();
+}
 
 void Graph::zero_grad()
 {

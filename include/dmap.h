@@ -26,6 +26,7 @@ public:
 	static Variable & MatMul(Variable &, Variable &);
 	static Variable & InnerProduct(Variable & , Variable &);
 	static Variable & ReLU(Variable &);
+	static Variable & SoftmaxCrossEntropy(Variable & x, Variable & label);
 
 	//virtual ~Graph();
 };
