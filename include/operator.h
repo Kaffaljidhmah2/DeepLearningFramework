@@ -58,6 +58,15 @@ public:
 	virtual ~op_ReLU(){};		
 };
 
+class op_SoftmaxCrossEntropy:public baseOp{
+public:
+	Tensor * _softmax_res;
+	op_SoftmaxCrossEntropy(Variable & x, Variable & label, Variable & res);
+	virtual void cal();
+	virtual void bp();
+	virtual ~op_SoftmaxCrossEntropy(){};
+};
+
 
 } //end dlframework
 
