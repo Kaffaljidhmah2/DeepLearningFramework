@@ -257,10 +257,111 @@ int main()
 	// Test MNIST dataset.
 	Tensor ** train_image=dataset::Read_MNIST_Train_Image("../dataset/train-images-idx3-ubyte");
 	Tensor ** train_label=dataset::Read_MNIST_Train_Label("../dataset/train-labels-idx1-ubyte");
-	dataset::Visualize_Grayscale(*train_image[59999],cout);
-	cout<<train_label[59999]->p[0]<<endl;
+	Tensor ** test_image=dataset::Read_MNIST_Test_Image("../dataset/t10k-images-idx3-ubyte");
+	Tensor ** test_label=dataset::Read_MNIST_Test_Label("../dataset/t10k-labels-idx1-ubyte");
+
+	// //Visualize images.
+	// dataset::Visualize_Grayscale(*train_image[59999],cout);
+	// cout<<train_label[59999]->p[0]<<endl;
+
+	//initalize random seed
+	Init::set_seed(std::chrono::system_clock::now().time_since_epoch().count());
+
+	// Define a 2-layer NN.
+	class MyNet{
+	public:
+		nn::Linear fc1;
+		nn::Linear fc2;
+		MyNet():fc1(28*28,500),fc2(500,10){}
+
+		Variable & operator()(Variable & x)
+		{
+			Variable & out1=fc1(x);
+			Variable & out2=Graph::ReLU(out1);
+			Variable & out3=fc2(out2);
+			return out3;
+		}
+	};
+
+	MyNet mynet;
+
+	Variable x,y; // Use default constructor, otherwise you need to clear_data to release the initial tensor.
+
+	//Reshape train and test images
+
+	for (int i=0;i<60000;++i)
+	{
+		train_image[i]->reshape({28*28,1});
+	}
+	for (int j=0;j<10000;++j)
+	{
+		test_image[j]->reshape({28*28,1});
+	}
+
+	//Build Graph
+
+	Variable & out = mynet(x);
+	Variable & loss = Graph::SoftmaxCrossEntropy(out,y);
+
+	// Define an optimizer
+	int batch_size=100;
+	float learning_rate=0.1;
+	float weight_decay=5e-4;
+	SGDOptimizer myoptim(batch_size, learning_rate, weight_decay);
+
+
+	for (int epoch=0;epoch<1;++epoch)	
+	{
+		for (int inner_loop=0; inner_loop<10000; ++inner_loop)
+		{
+			//Manual Assign tensor to x and y.
+			// Random SHUFLLE !!!!!!!!!!!
+			x.data=train_image[inner_loop];
+			y.data=train_label[inner_loop];
+			Graph::eval(loss);
+			if ((inner_loop+1) % batch_size ==0)
+				cout<<loss.data->p[0]<<endl;
+			Graph::zero_grad();
+			Graph::backward(loss);
+			myoptim.step();
+		}
+	}
+
+	//Eval on Test
+
+	int total_correct=0;
+	for (int inner_loop=0; inner_loop<1000; ++ inner_loop)
+	{
+		x.data=test_image[inner_loop];
+		Graph::eval(out);
+		Tensor u=functional::softmax(*out.data);
+		auto argmax = std::max_element(u.p,u.p+u.length);
+		if ((argmax - u.p) == (int)(test_label[inner_loop]->p[0]))
+			++total_correct;
+	}
+	cout<<"Numbers of correctness: "<<total_correct<<endl;
+
+	
+
+	// Free the resources.
+	x.data=nullptr;
+	y.data=nullptr;
+
+	for (int i=0;i<60000;++i)
+	{
+		delete train_image[i];
+		delete train_label[i];
+	}
 	delete train_image;
 	delete train_label;
+
+	for (int j=0;j<10000;++j)
+	{
+		delete test_image[j];
+		delete test_label[j];
+	}	
+	delete test_image;
+	delete test_label;
 
 	return 0;
 }
