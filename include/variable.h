@@ -3,6 +3,7 @@
 
 #include<initializer_list>
 #include<ostream>
+#include<random>
 
 namespace dlframework{	
 
@@ -60,7 +61,12 @@ namespace dlframework{
 		virtual ~Variable();
 	};
 
-	
+	class Init{
+	public:
+		static std::default_random_engine dlframework_random_generator;
+		static void set_seed(unsigned val);
+		static void normal(Tensor & x, float mean=0.0, float std=1.0);
+	};
 
 
 }// end dlframework
