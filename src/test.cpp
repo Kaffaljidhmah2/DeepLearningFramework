@@ -253,8 +253,14 @@ int main()
 	// 	Graph::backward(loss);
 	// 	myoptim.step();
 	// }
+
+	// Test MNIST dataset.
 	Tensor ** train_image=dataset::Read_MNIST_Train_Image("../dataset/train-images-idx3-ubyte");
-	cout<<*train_image[59999]<<endl;
+	Tensor ** train_label=dataset::Read_MNIST_Train_Label("../dataset/train-labels-idx1-ubyte");
+	dataset::Visualize_Grayscale(*train_image[59999],cout);
+	cout<<train_label[59999]->p[0]<<endl;
+	delete train_image;
+	delete train_label;
 
 	return 0;
 }
