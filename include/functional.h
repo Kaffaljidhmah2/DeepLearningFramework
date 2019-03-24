@@ -21,6 +21,7 @@ Tensor inner_prod(const Tensor & a, const Tensor & b);
 Tensor relu(const Tensor & x);
 Tensor drelu(const Tensor & input, const Tensor & grad);
 Tensor mean(const Tensor & x);
+Tensor e_mul(const Tensor & x, const Tensor & y);
 
 }
 }

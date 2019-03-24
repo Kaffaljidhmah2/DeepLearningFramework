@@ -177,5 +177,16 @@ Tensor mean(const Tensor & x)
 	return res;
 }
 
+Tensor e_mul(const Tensor & x, const Tensor & y)
+{
+	//assert a.shape==b.shape
+	Tensor res(x,true);
+	for (int i=0;i<x.length;++i)
+	{
+		res.p[i]=x.p[i]*y.p[i];
+	}
+	return res;
+}
+
 }//end functional
 }
