@@ -5,6 +5,7 @@
 #include "nn.h"
 #include "optim.h"
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 using namespace dlframework;
@@ -103,10 +104,11 @@ int main()
 
 
 	// Random number test
-	// Init::set_seed(122);
+	// Init::set_seed(std::chrono::system_clock::now().time_since_epoch().count());
 
-	Tensor x({500}); Init::normal(x);
-
+	// Tensor x({20000}); Init::normal(x);
+	// cout<<functional::mean(x)<<endl;
+	// cout<<functional::mean(functional::e_mul(x,x))<<endl;
 
 
 	// // Build Graph
