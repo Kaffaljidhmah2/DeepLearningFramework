@@ -31,6 +31,7 @@ namespace dlframework{
 		Tensor operator+(const Tensor& b) const;
 		Tensor & operator-=(const Tensor & b);
 		Tensor operator-(const Tensor & b) const;
+		Tensor & operator*=(const float & x);
 		
 		friend std::ostream& operator<<(std::ostream & o, const Tensor & rhs);
 	};

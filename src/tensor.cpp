@@ -182,4 +182,14 @@ Tensor Tensor::operator-(const Tensor& b) const
 	for (unsigned i=0;i<length;++i) x.p[i]=p[i]-b.p[i];
 	return x;
 }
+
+Tensor & Tensor::operator*=(const float & x)
+{
+	for (unsigned i=0;i<length;++i)
+	{
+		p[i]*=x;
+	}
+	return *this;
+}
+
 }
