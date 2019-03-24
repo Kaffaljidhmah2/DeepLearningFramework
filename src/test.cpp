@@ -314,8 +314,9 @@ int main()
 	for (int i=0;i<60000;++i) ran_indices[i]=i;
 	for (int epoch=0;epoch<1;++epoch)	
 	{
+		cout<<"epoch "<<epoch<<endl;
 		random_shuffle(ran_indices,ran_indices+60000);
-		for (int inner_loop=0; inner_loop<10000; ++inner_loop)
+		for (int inner_loop=0; inner_loop<60000; ++inner_loop)
 		{
 			//Manual Assign tensor to x and y.
 			x.data=train_image[ran_indices[inner_loop]];
@@ -332,7 +333,7 @@ int main()
 	//Eval on Test
 
 	int total_correct=0;
-	for (int inner_loop=0; inner_loop<1000; ++ inner_loop)
+	for (int inner_loop=0; inner_loop<10000; ++ inner_loop)
 	{
 		x.data=test_image[inner_loop];
 		Graph::eval(out);
