@@ -4,6 +4,7 @@
 #include "dmap.h"
 #include "nn.h"
 #include "optim.h"
+#include "utils.h"
 #include <iostream>
 #include <chrono>
 
@@ -112,7 +113,7 @@ int main()
 
 
 	// Random number test
-	Init::set_seed(std::chrono::system_clock::now().time_since_epoch().count());
+	// Init::set_seed(std::chrono::system_clock::now().time_since_epoch().count());
 
 	// Tensor x({20000}); Init::normal(x);
 	// cout<<functional::mean(x)<<endl;
@@ -252,6 +253,8 @@ int main()
 	// 	Graph::backward(loss);
 	// 	myoptim.step();
 	// }
+	Tensor ** train_image=dataset::Read_MNIST_Train_Image("../dataset/train-images-idx3-ubyte");
+	cout<<*train_image[59999]<<endl;
 
 	return 0;
 }

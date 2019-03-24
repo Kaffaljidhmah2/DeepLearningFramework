@@ -30,8 +30,13 @@
 *.exe
 *.out
 *.app
+
+# cmake
 build
 build2
+
+# dataset
+dataset
 
 # Sublime and Vim swap files
 *~
