@@ -311,7 +311,7 @@ int main()
 
 
 	int ran_indices[60000];
-	for (int i=0;i<ran_indices;++i) ran_indices[i]=i;
+	for (int i=0;i<60000;++i) ran_indices[i]=i;
 	for (int epoch=0;epoch<1;++epoch)	
 	{
 		random_shuffle(ran_indices,ran_indices+60000);
