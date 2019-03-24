@@ -1,6 +1,6 @@
 # DeepLearningFramework
 
-## Deep Learning in pure C++ 11
+## Deep Learning in pure C++ 11 (work in progress)
 
 ---
 
