@@ -168,5 +168,14 @@ Tensor drelu(const Tensor & input, const Tensor & grad)
 	return res;
 }
 
+Tensor mean(const Tensor & x)
+{
+	Tensor res(0.0);
+	for (int i=0;i<x.length;++i)
+		res.p[0]+=x.p[i];
+	res.p[0]/=x.length;
+	return res;
+}
+
 }//end functional
 }
