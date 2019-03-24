@@ -52,6 +52,8 @@ namespace dlframework{
 		Variable(Tensor & tensor, bool does_require_grad=false); //identity copy of a new tensor.
 		Variable(Tensor && tensor, bool does_require_grad=false);
 
+		Variable & operator=(const std::initializer_list<float> & array);
+
 		void clear_data();
 		void zero_grad();
 		friend std::ostream& operator<<(std::ostream & o, const Variable & rhs);

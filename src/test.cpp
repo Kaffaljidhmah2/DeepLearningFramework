@@ -3,6 +3,7 @@
 #include "functional.h"
 #include "dmap.h"
 #include "nn.h"
+#include "optim.h"
 #include <iostream>
 
 using namespace std;
@@ -195,22 +196,45 @@ int main()
 	
 	// Define your module !
 
-	// class mynet{
-	// public:
-	// 	nn::Linear fc1;
-	// 	nn::Linear fc2;
-	// 	mynet():fc1(3,5),fc2(5,1){}
+	class MyNet{
+	public:
+		nn::Linear fc1;
+		nn::Linear fc2;
+		MyNet():fc1(3,5),fc2(5,1){}
 
-	// 	Variable & operator()(Variable & x)
-	// 	{
-	// 		Variable & out1=fc1(x);
-	// 		Variable & out2=Graph::ReLU(out1);
-	// 		Variable & out3=fc2(out2);
-	// 		return out3;
-	// 	}
-	// };
+		Variable & operator()(Variable & x)
+		{
+			Variable & out1=fc1(x);
+			Variable & out2=Graph::ReLU(out1);
+			Variable & out3=fc2(out2);
+			return out3;
+		}
+	};
 
-	// mynet T;
+	MyNet mynet;
+
+	cout<<Optimizer::Params.size()<<endl;
+	SGDOptimizer myoptim(2, 0.1, 5e-4);    //SGDOptimizer(int bs, float lr=0.1, float wd=0);
+
+	cout<<"Before mynet() "<<Graph::op_stack.size()<<endl;
+	Variable input({3,1}); input={1,2,5}; Variable target({2,1}); target={1,-4}; //Data sets
+	Variable & out = mynet(input);
+	cout<<"After mynet() "<<Graph::op_stack.size()<<endl;	
+
+	Variable & residual = Graph::Sub(out, target);
+	Variable & loss = Graph::InnerProduct(residual, residual);
+
+	cout<<"After loss defined "<<Graph::op_stack.size()<<endl;	
+	cout<<Optimizer::Params.size()<<endl;
+	for (int idx=0;idx<200;++idx)	
+	{
+		cout<<"idx: "<<idx<<endl;	
+		Graph::eval(loss);
+		cout<<loss.data->p[0]<<endl;
+		Graph::zero_grad();
+		Graph::backward(loss);
+		myoptim.step();
+	}
 
 	return 0;
 }

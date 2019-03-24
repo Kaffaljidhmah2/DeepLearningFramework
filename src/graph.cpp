@@ -85,7 +85,7 @@ std::vector<int> Graph::_get_subgraph(const Variable & z)
 
 void Graph::eval(const Variable & z)	
 {
-	cal_list=_get_subgraph(z);
+	std::vector<int> cal_list=_get_subgraph(z);
 	for (auto it=cal_list.begin();it!= cal_list.end();++it)
 		op_stack[*it]->cal();
 }
@@ -98,7 +98,7 @@ void Graph::backward(Variable & z)
 	}
 	//if (z.grad==nullptr) assert error!
 
-	cal_list=_get_subgraph(z);
+	std::vector<int> cal_list=_get_subgraph(z);
 	for (auto it=cal_list.rbegin();it!= cal_list.rend();++it)
 		op_stack[*it]->bp();
 

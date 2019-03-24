@@ -15,7 +15,8 @@ Variable::Variable(float x, bool does_require_grad)
 	op=-1;
 	requires_grad=does_require_grad;
 }
-Variable::Variable(const std::initializer_list<unsigned> & init_shape, bool does_require_grad);
+
+Variable::Variable(const std::initializer_list<unsigned> & init_shape, bool does_require_grad)
 {
 	data=new Tensor(init_shape);
 	grad=nullptr;
@@ -70,6 +71,18 @@ Variable::Variable(Tensor && tensor, bool does_require_grad)
 //	if (op!=nullptr)
 //		op->bp(*this);
 //}
+
+Variable & Variable::operator=(const std::initializer_list<float> & array)
+{
+	if (data==nullptr) {// error
+		
+	}
+	else
+	{
+		*data=array;
+	}
+	return *this;
+}
 
 void Variable::clear_data()
 {

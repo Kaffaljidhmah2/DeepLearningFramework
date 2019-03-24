@@ -3,6 +3,7 @@
 
 #include "dmap.h"
 #include "functional.h"
+#include "optim.h"
 
 namespace dlframework{
 namespace nn{
