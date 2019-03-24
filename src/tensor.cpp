@@ -29,7 +29,7 @@ namespace dlframework{
 	p=new float[length];
 }
 
-void TensorReshape(const std::initializer_list<unsigned> & init_shape){
+void Tensor::reshape(const std::initializer_list<unsigned> & init_shape){
 	dim = init_shape.end()-init_shape.begin();
 	unsigned i=0;
 	int new_length=1;

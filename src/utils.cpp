@@ -58,7 +58,7 @@ Tensor ** Read_MNIST_Train_Image(const char * url) //returns a pointer to a Tens
 	return _read_mnist_image(url, 60000);
 }
 
-Tensor ** Read_MNIST_Test_Iamge(const char * url)
+Tensor ** Read_MNIST_Test_Image(const char * url)
 {
 	return _read_mnist_image(url, 10000);
 }

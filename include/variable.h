@@ -34,7 +34,7 @@ namespace dlframework{
 		Tensor operator-(const Tensor & b) const;
 		Tensor & operator*=(const float & x);
 		
-		void Reshape(const std::initializer_list<unsigned> & init_shape);
+		void reshape(const std::initializer_list<unsigned> & init_shape);
 		friend std::ostream& operator<<(std::ostream & o, const Tensor & rhs);
 	};
 
