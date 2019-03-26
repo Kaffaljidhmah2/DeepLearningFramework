@@ -212,5 +212,58 @@ Tensor softmax(const Tensor & x)
 	return res;
 }
 
+Tensor conv3d(const Tensor & im, const Tensor & kernel, int zero_pad, int stride)
+{
+	// im: in_channel * Height * Weight 
+	// kernel: out_channel * in_channel * kernelsize1 * kernelsize2 
+	// output: H*W -- zero_pad --> (H + 2zp) * (W + 2zp) -->  ceil_up (H + 2zp - k1 +1 )/stride * ceil_up(W + 2zp - k2 +1 )/stride 
+	// output: out_channel * ( ) * ( )
+
+	// assert dim and shape match
+	assert(stride>0);
+	assert(zero_pad>=0);
+
+	const unsigned & in_channel = im.shape[0];
+	const unsigned & H = im.shape[1];
+	const unsigned & W = im.shape[2];
+	const unsigned & out_channel = kernel.shape[0];
+	const unsigned & k1= kernel.shape[2];
+	const unsigned & k2= kernel.shape[3];
+
+	assert(in_channel==kernel.shape[1]);
+
+	Tensor res({out_channel, (H+2*zero_pad-k1+stride)/stride ,(W+2*zero_pad-k2+stride)/stride});
+
+	for (int chan = 0; chan < out_channel ; ++chan)
+	{
+		for (int i=0;i<H+2*zero_pad-k1+1;i+=stride)
+		{
+			for (int j=0;j<W+2*zero_pad-k2+1;j+=stride)
+			{
+				float & current = res({chan, i/stride, j/stride});
+				current=0.0;
+				for (int inchan=0; inchan <in_channel ; ++inchan)
+				{
+					// current up_left corner of the kernel : (i-zero_pad, j-zero_pad)
+					// current down_right corner : (i-zero_pad+k1, j-zero_pad+k2)
+					for (int ii=0; ii<k1;++ii)
+					{
+						for (int jj=0;jj<k2;++jj)
+						{
+							float left=0.0;
+							int right_i=i-zero_pad+ii;
+							int right_j=j-zero_pad+jj;
+							if (right_i >=0 && right_i<H && right_j>=0 && right_j<W)
+								left = im({inchan, right_i, right_j});
+							current += left * kernel({chan, inchan, ii, jj});
+						}
+					}
+				}
+			}
+		}
+	}
+	return res;
+}
+
 }//end functional
 }

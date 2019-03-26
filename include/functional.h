@@ -25,6 +25,7 @@ Tensor e_mul(const Tensor & x, const Tensor & y);
 Tensor sum(const Tensor & x);
 
 Tensor softmax(const Tensor & x);
+Tensor conv3d(const Tensor & im, const Tensor & kernel, int zero_pad, int stride);
 
 }
 }

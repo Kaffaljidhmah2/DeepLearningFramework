@@ -149,13 +149,14 @@ Tensor::~Tensor(){
 	if (p!=nullptr) delete[] p;
 }
 
-float& Tensor::operator()(const std::initializer_list<unsigned> & indices){
+float& Tensor::operator()(const std::initializer_list<int> & indices) const {
 	//assert dim == length of indices
-	unsigned offset=0;
-	unsigned i=0;
+	int offset=0;
+	int i=0;
 	for (auto iter=indices.begin(); iter!= indices.end(); ++iter)
 	{
 		//assert *iter < shape[i]
+		assert(*iter>=0);
 		assert(*iter<shape[i]);
 		offset+= *iter;
 		offset*= shape[i+1];

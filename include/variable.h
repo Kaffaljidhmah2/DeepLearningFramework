@@ -28,7 +28,7 @@ namespace dlframework{
 		Tensor & operator=(const std::initializer_list<float> & array);
 		Tensor & operator=(const Tensor & rhs); 
 		Tensor & operator=(Tensor && rhs);
-		float & operator()(const std::initializer_list<unsigned> & indices);
+		float & operator()(const std::initializer_list<int> & indices) const;
 		Tensor & operator+=(const Tensor & b);
 		Tensor operator+(const Tensor& b) const;
 		Tensor & operator-=(const Tensor & b);
