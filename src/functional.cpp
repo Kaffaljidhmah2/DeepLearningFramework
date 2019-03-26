@@ -8,13 +8,14 @@ namespace functional{
 
 Tensor matmul(const Tensor & M, const Tensor & x)
 {
-	//assert M.dim==2; M=m*n;
+	//M=m*n;
+	assert(M.dim==2);
 	// x=n*k -> output m*k
 	unsigned m=M.shape[0], n=M.shape[1];
 	if (x.dim==2)
 	{
 		unsigned k=x.shape[1];
-		//assert M.shape[1] == x.shape[0]
+		assert(M.shape[1] == x.shape[0]);
 
 		Tensor res({m,k});
 		for (unsigned i=0;i<m;++i)
@@ -33,7 +34,7 @@ Tensor matmul(const Tensor & M, const Tensor & x)
 	}
 	else if (x.dim==1) //M: m*n x: n  -> output m
 	{
-		//assert M.shape[1] == x.shape[0]
+		assert(M.shape[1] == x.shape[0]);
 
 		Tensor res({m});
 		for (unsigned i=0;i<m;++i)
@@ -54,8 +55,8 @@ Tensor matmul_T(const Tensor & M, const Tensor & B)
 	// M=(m,n) B=(k,n) MB^T=(m,k)
 
 	unsigned m=M.shape[0],n=M.shape[1],k=B.shape[0];
-	//assert M.shape[1]=B.shape[1]
-	//assert M.dim==2
+	assert(M.shape[1]==B.shape[1]);
+	assert(M.dim==2);
 	if (B.dim==2)
 	{
 		Tensor res({m,k});
@@ -79,8 +80,8 @@ Tensor T_matmul(const Tensor & A, const Tensor & M)
 	// Calculate A^T * M
 	// M=(m,n) A=(m,k) A^TM=(k,n)
 	unsigned m=M.shape[0],n=M.shape[1],k=A.shape[1];
-	//assert M.shape[0]=A.shape[0]
-	//assert M.dim==2
+	assert(M.shape[0]==A.shape[0]);
+	assert(M.dim==2);
 	if (A.dim==2)
 	{
 		Tensor res({k,n});
@@ -103,6 +104,7 @@ Tensor inner_prod(const Tensor & a, const Tensor & b)
 	//sum of Element-wize product
 
 	//assert shape match 
+	assert(a.length==b.length);
 	float r=0.0;
 	for (int i=0;i<a.length;++i)
 		r+=a.p[i]*b.p[i];
@@ -122,6 +124,7 @@ Tensor sub(const Tensor & a, const Tensor & b)
 Tensor max(const Tensor & a, const Tensor & b)
 {
 	//assert a.shape==b.shape
+	assert(a.length==b.length);
 	Tensor res(a,true);
 	for (int i=0;i<a.length;++i)
 		res.p[i]=std::max(a.p[i],b.p[i]);
@@ -131,6 +134,7 @@ Tensor max(const Tensor & a, const Tensor & b)
 Tensor min(const Tensor & a, const Tensor & b)
 {
 	//assert a.shape==b.shape
+	assert(a.length==b.length);
 	Tensor res(a,true);
 	for (int i=0;i<a.length;++i)
 		res.p[i]=std::min(a.p[i],b.p[i]);
@@ -189,6 +193,7 @@ Tensor sum(const Tensor & x)
 Tensor e_mul(const Tensor & x, const Tensor & y)
 {
 	//assert a.shape==b.shape
+	assert(x.length==y.length);
 	Tensor res(x,true);
 	for (int i=0;i<x.length;++i)
 	{
@@ -220,6 +225,8 @@ Tensor conv3d(const Tensor & im, const Tensor & kernel, int zero_pad, int stride
 	// output: out_channel * ( ) * ( )
 
 	// assert dim and shape match
+	assert(im.dim==3);
+	assert(kernel.dim==4);
 	assert(stride>0);
 	assert(zero_pad>=0);
 

@@ -39,8 +39,9 @@ void Tensor::reshape(const std::initializer_list<unsigned> & init_shape){
 		new_length*=*iter;
 	}
 	shape[dim]=1;
-	if (new_length!=length) {//assert error
-	}
+	assert(new_length==length);
+	// if (new_length!=length) {//assert error
+	// }
 }
 
 //overload all constructors !
@@ -168,6 +169,7 @@ float& Tensor::operator()(const std::initializer_list<int> & indices) const {
 Tensor & Tensor::operator+=(const Tensor & b)
 {
 	//assert shape match!
+	assert(length==b.length);
 	for (unsigned i=0; i<length; ++i)
 	{
 		p[i]+=b.p[i];
@@ -178,6 +180,7 @@ Tensor & Tensor::operator+=(const Tensor & b)
 Tensor Tensor::operator+(const Tensor& b) const
 {
 	Tensor x(*this,true);
+	assert(length==b.length);
 	for (unsigned i=0;i<length;++i) x.p[i]=p[i]+b.p[i];
 	return x;
 }
@@ -185,6 +188,7 @@ Tensor Tensor::operator+(const Tensor& b) const
 Tensor & Tensor::operator-=(const Tensor & b)
 {
 	//assert shape match!
+	assert(length==b.length);
 	for (unsigned i=0; i<length; ++i)
 	{
 		p[i]-=b.p[i];
@@ -195,6 +199,7 @@ Tensor & Tensor::operator-=(const Tensor & b)
 Tensor Tensor::operator-(const Tensor& b) const
 {
 	Tensor x(*this,true);
+	assert(length==b.length);
 	for (unsigned i=0;i<length;++i) x.p[i]=p[i]-b.p[i];
 	return x;
 }

@@ -104,6 +104,7 @@ void Graph::backward(Variable & z)
 		z.grad=new Tensor(1);
 	}
 	//if (z.grad==nullptr) assert error!
+	assert(z.grad!=nullptr);
 
 	std::vector<int> cal_list=_get_subgraph(z);
 	for (auto it=cal_list.rbegin();it!= cal_list.rend();++it)

@@ -7,11 +7,12 @@ namespace dataset{
 Tensor ** _read_mnist_image(const char * url, int len)
 {
 	std::ifstream filereader(url,std::ios::in|std::ios::binary);
-	if (!filereader)
-	{
-		std::cerr<<"Error "<<std::endl;
-		//assert error.
-	}
+	// if (!filereader)
+	// {
+	// 	std::cerr<<"Error "<<std::endl;
+	// 	//assert error.
+	// }
+	assert(filereader);
 	Tensor ** res=new Tensor*[len]; 
 	unsigned char s;
 	filereader.seekg(16,std::ios::beg);
