@@ -4,6 +4,7 @@
 #include<initializer_list>
 #include<ostream>
 #include<random>
+#include <cassert>
 
 namespace dlframework{	
 

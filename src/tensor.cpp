@@ -155,9 +155,10 @@ float& Tensor::operator()(const std::initializer_list<unsigned> & indices){
 	unsigned i=0;
 	for (auto iter=indices.begin(); iter!= indices.end(); ++iter)
 	{
+		//assert *iter < shape[i]
+		assert(*iter<shape[i]);
 		offset+= *iter;
 		offset*= shape[i+1];
-		//assert *iter < shape[i]
 		++i;
 	}
 	return p[offset];
