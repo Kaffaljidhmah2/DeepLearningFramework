@@ -39,7 +39,7 @@ int main()
 	// cout<<x<<endl<<y<<endl;
 	// cout<<x({0,1})<<' '<<y({1,2})<<endl;
 	// //Define a tensor of the same shape
-	// Tensor z(x,true);
+	// Tensor z(x,true); /* z = zero_like (x) */
 	// cout<<z<<endl;
 
 	// //Basic Operations.
@@ -58,15 +58,16 @@ int main()
 
 	// //Variables
 	// Variable x;cout<<x<<endl;
-	// Variable y(1.2);cout<<y<<endl;
+	// Variable y(1.2,false);cout<<y<<endl;
 	// Variable z({2,3,4});cout<<z<<endl;
 
 	//Shadow Copy
-	// Variable y(1.2);cout<<y<<endl;
+	// Variable y(1.2,false);cout<<y<<endl;
 	// Variable w(y); w.clear_data(); cout<<y<<endl; //Error !  > Use smart pointer!
 
 	// Variable is a container of Tensor
 	// Variable holds a deep copy of a tensor
+
 	// Tensor tx({2,3});Variable vx(tx); cout<<vx<<endl;
 	// tx={2,3,7};cout<<tx<<endl; cout<<vx<<endl;
 
@@ -83,7 +84,7 @@ int main()
 	// Tensor x({2,3}),y({2,3});x={1,2,2,1,2,2};y={2,-1,0,4,4,1};
 	// cout<<x<<endl;cout<<y<<endl;
 	// cout<<functional::relu(y)<<endl;
-	// //cout<<functional::add(x,y)<<endl;
+	// cout<<functional::add(x,y)<<endl;
 	// Tensor * p=new Tensor(functional::add(x,y));
 	// cout<<*p<<endl;
 
@@ -94,6 +95,8 @@ int main()
 
 	// cout<<functional::max(x,y)<<endl;
 	// cout<<functional::min(x,y)<<endl;
+
+	// mat mul
 
 	// Tensor x({2,2}),y({2,2});x={1,2,2,1};y={1,0,1,1};
 	// cout<<x<<endl;cout<<y<<endl;
@@ -127,10 +130,12 @@ int main()
 	// Variable & w=Graph::Add(x,y);
 	// Variable & z=Graph::Add(x,w);
 
-	// // Don't write Variable z=Graph.Add(x,y); the move constructor will ruin the variable stored in Graph !
+	// // Don't write "Variable z=Graph::Add(x,y);" the move constructor will ruin the variable stored in Graph !
 
 	// // Graph builds graph first
 	// cout<<z<<endl;
+	
+	// // Graph::eval computes the calculation that leads to the variable.
 	
 	// Graph::eval(z);
 	// cout<<z<<endl;
@@ -368,15 +373,15 @@ int main()
 
 	// Test for conv
 
-	Tensor x({2,4,3}); 
-	x={1,2,3,
-		2,3,4,
-		1,4,2};
-	Tensor k({1,2,3,3});
-	k={0,0,0,
-		-1,1,0,
-		0,0,0};
-	cout<<functional::conv3d(x,k,1,1)<<endl;
+	// Tensor x({2,4,3}); 
+	// x={1,2,3,
+	// 	2,3,4,
+	// 	1,4,2};
+	// Tensor k({1,2,3,3});
+	// k={0,0,0,
+	// 	-1,1,0,
+	// 	0,0,0};
+	// cout<<functional::conv3d(x,k,1,1)<<endl;
 
 
 	return 0;
